@@ -1,7 +1,27 @@
 import PropTypes from 'prop-types';
 import css from '../ContactList/ContactList.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilter, getItem } from '../../redux/contactSlice';
+import { deleteContacts } from '../../redux/contactSlice';
 
-export const ContactList = ({ phoneList, deleteContact }) => {
+export const ContactList = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getItem);
+  const filter = useSelector(getFilter);
+
+  const contactFilter = () => {
+    if (filter === '') {
+      return false;
+    }
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter)
+    );
+  };
+
+  const phoneList = contactFilter() ? contactFilter() : contacts;
+
+  console.log(phoneList);
+
   return (
     <ul className={css.contactList}>
       {phoneList.map(contact => (
@@ -9,7 +29,8 @@ export const ContactList = ({ phoneList, deleteContact }) => {
           {contact.name}: {contact.number}
           <button
             type="button"
-            onClick={() => deleteContact(contact)}
+            name={contact.id}
+            onClick={event => dispatch(deleteContacts(event.target.name))}
             className={css.btn}
           >
             Delete

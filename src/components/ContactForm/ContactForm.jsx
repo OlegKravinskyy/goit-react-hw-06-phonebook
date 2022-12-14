@@ -23,15 +23,11 @@ export const ContactForm = ({ onSubmit }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    // const nameContact = name;
-    // const numberContact = number;
     const newContact = {
       id: nanoid(),
       name,
       number,
     };
-
-    onSubmit(newContact);
 
     reset();
     if (contacts.some(contact => contact.name === newContact.name)) {
