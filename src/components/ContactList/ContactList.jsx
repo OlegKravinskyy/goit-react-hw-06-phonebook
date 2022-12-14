@@ -20,8 +20,6 @@ export const ContactList = () => {
 
   const phoneList = contactFilter() ? contactFilter() : contacts;
 
-  console.log(phoneList);
-
   return (
     <ul className={css.contactList}>
       {phoneList.map(contact => (
